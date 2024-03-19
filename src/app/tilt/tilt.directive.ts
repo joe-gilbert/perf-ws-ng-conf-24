@@ -1,8 +1,11 @@
-import { Directive, HostBinding, HostListener, Input } from '@angular/core';
+import { Directive, HostBinding, HostListener, Input, signal } from '@angular/core';
 
 @Directive({
   selector: '[tilt]',
   standalone: true,
+  host: {
+    '[style.transform]': 'rotation()'
+  }
 })
 export class TiltDirective {
   @Input('tilt') rotationDegree = 30;
@@ -11,19 +14,18 @@ export class TiltDirective {
   onMouseEnter(pageX: number, target: HTMLElement) {
     const pos = determineDirection(pageX, target);
 
-    this.rotation =
+    this.rotation.set(
       pos === 0
         ? `rotate(${this.rotationDegree}deg)`
-        : `rotate(-${this.rotationDegree}deg)`;
+        : `rotate(-${this.rotationDegree}deg)`);
   }
 
   @HostListener('mouseleave')
   onMouseLeave() {
-    this.rotation = 'rotate(0deg)';
+    this.rotation.set('rotate(0deg)');
   }
 
-  @HostBinding('style.transform')
-  rotation = 'rotate(0deg)';
+  rotation = signal('rotate(0deg)');
 }
 
 /**
