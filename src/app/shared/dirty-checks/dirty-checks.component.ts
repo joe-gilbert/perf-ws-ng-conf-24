@@ -1,4 +1,4 @@
-import {Component, DoCheck} from "@angular/core";
+import {Component, DoCheck, signal} from "@angular/core";
 
 @Component({
   selector: "dirty-checks",
@@ -17,13 +17,9 @@ import {Component, DoCheck} from "@angular/core";
   standalone: true
 })
 export class DirtyChecksComponent implements DoCheck {
-  private _renders = 0;
+  public renders = signal(0);
 
   ngDoCheck() {
-    this._renders++;
-  }
-
-  renders() {
-    return this._renders;
+    this.renders.update(number => number + 1);
   }
 }
