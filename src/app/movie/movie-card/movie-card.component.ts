@@ -1,11 +1,12 @@
 import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 
 import { TiltDirective } from '../../tilt/tilt.directive';
 import { StarRatingComponent } from '../../ui/pattern/star-rating/star-rating.component';
 import { MovieImagePipe } from '../movie-image.pipe';
 import { MovieModel } from '../movie-model';
+import { DirtyChecksComponent } from '../../shared/dirty-checks/dirty-checks.component';
 
 @Component({
   selector: 'movie-card',
@@ -13,6 +14,7 @@ import { MovieModel } from '../movie-model';
   styleUrls: ['./movie-card.component.scss'],
   standalone: true,
   imports: [
+    DirtyChecksComponent,
     TiltDirective,
     StarRatingComponent,
     NgFor,
@@ -21,6 +23,7 @@ import { MovieModel } from '../movie-model';
     NgIf,
     FastSvgComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieCardComponent implements OnInit {
   @Input() movie!: MovieModel;
